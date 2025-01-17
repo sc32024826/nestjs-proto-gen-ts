@@ -1,8 +1,8 @@
-import { IGenOptions } from './types';
+import { IGenOptions } from './types.js';
 
 export const options: IGenOptions = {
     path: [],
-    output: null,
+    output: './types',
     target: ['.proto'],
     ignore: ['node_modules', 'dist'],
     template: 'templates/nestjs-grpc.hbs',

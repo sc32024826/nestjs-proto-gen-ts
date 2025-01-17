@@ -7,6 +7,7 @@
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
+    "type": "module",
     "scripts": {
         "format": "prettier --write \"src/**/*.ts\"",
         "lint": "eslint \"src/**/*.ts\" --fix",
@@ -22,7 +23,7 @@
         "templates/"
     ],
     "bin": {
-        "tsproto": "bin/cli"
+        "pgt": "bin/cli"
     },
     "engines": {
         "node": ">=6.3.2"
@@ -32,7 +33,7 @@
         "url": "git@github.com:sc32024826/nestjs-proto-gen-ts.git"
     },
     "bugs": {
-        "url": "https://github.com/AlexDaSoul/nestjs-proto-gen-ts/issues"
+        "url": "https://github.com/sc32024826/nestjs-proto-gen-ts/issues"
     },
     "keywords": [
         "protobuf",
@@ -44,7 +45,9 @@
     ],
     "devDependencies": {
         "@grpc/grpc-js": "^1.12.5",
+        "@types/fs-extra": "^11.0.4",
         "@types/node": "^22.10.7",
+        "@types/yargs": "^17.0.33",
         "@typescript-eslint/eslint-plugin": "^8.20.0",
         "@typescript-eslint/parser": "^8.20.0",
         "eslint": "^9.18.0",

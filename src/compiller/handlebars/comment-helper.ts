@@ -1,6 +1,10 @@
-import { registerHelper } from 'handlebars';
+import handlebars from 'handlebars';
 
-registerHelper('comment', function () {
+interface CommentContext {
+    comment?: string;
+}
+
+handlebars.registerHelper('comment', function (this: CommentContext) {
     if (this.comment) {
         return `// ${this.comment.replace(/\n/g, '\n// ')}`;
     }

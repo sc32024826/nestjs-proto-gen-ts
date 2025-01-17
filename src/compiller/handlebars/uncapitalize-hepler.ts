@@ -1,5 +1,5 @@
-import { registerHelper } from 'handlebars';
+import handlebars from 'handlebars';
 
-registerHelper('uncapitalize', function (conditional) {
+handlebars.registerHelper('uncapitalize', function (conditional) {
     return conditional[0].toLowerCase() + conditional.slice(1);
 });

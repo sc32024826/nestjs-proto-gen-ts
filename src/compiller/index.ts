@@ -1,21 +1,21 @@
-import { common, Enum, Root, util } from 'protobufjs';
+import protobufjs from 'protobufjs';
 import { basename, dirname, extname, isAbsolute, join, resolve } from 'path';
 import { existsSync, lstatSync, outputFileSync, readdirSync, readFileSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import chalk from 'chalk';
 
-import './handlebars/var-helper';
-import './handlebars/comment-helper';
-import './handlebars/enum-comment-helper';
-import './handlebars/uncapitalize-hepler';
-import './handlebars/type-helper';
-import './handlebars/default-value-helper';
+import './handlebars/var-helper.js';
+import './handlebars/comment-helper.js';
+import './handlebars/enum-comment-helper.js';
+import './handlebars/uncapitalize-hepler.js';
+import './handlebars/type-helper.js';
+import './handlebars/default-value-helper.js';
 
-import { IGenOptions } from '../types';
+import { IGenOptions } from '../types.js';
 
 /** Set Compiller */
 export class Compiller {
-    constructor(private readonly options: IGenOptions) {}
+    constructor(private readonly options: IGenOptions) { }
 
     public compile(): void {
         this.options.path.forEach((pkg) => {
@@ -25,24 +25,27 @@ export class Compiller {
         });
     }
 
-    private resolveRootPath(root: Root): void {
+    private resolveRootPath(root: protobufjs.Root): void {
         const paths = this.options.path;
         const length = paths.length;
 
         // Search include paths when resolving imports
         root.resolvePath = (origin, target) => {
-            let resolved = util.path.resolve(util.path.normalize(origin), util.path.normalize(target), false);
+            let resolved = protobufjs.util.path.resolve(protobufjs.util.path.normalize(origin), protobufjs.util.path.normalize(target), false);
 
             const idx = resolved.lastIndexOf('google/protobuf/');
 
             if (idx > -1) {
                 const altname = resolved.substring(idx);
 
-                if (resolved.match(/google\/protobuf\//g).length > 1) {
-                    resolved = resolved.split('google/protobuf')[0] + util.path.normalize(target);
+                if (resolved.match(/google\/protobuf\//g)) {
+                    const matches = resolved.match(/google\/protobuf\//g);
+                    if (matches && matches.length > 1) {
+                        resolved = resolved.split('google/protobuf')[0] + protobufjs.util.path.normalize(target);
+                    }
                 }
 
-                if (altname in common) {
+                if (altname in protobufjs.common) {
                     resolved = altname;
                 }
             }
@@ -52,7 +55,7 @@ export class Compiller {
             }
 
             for (let i = 0; i < length; ++i) {
-                const iresolved = util.path.resolve(paths[i] + '/', target);
+                const iresolved = protobufjs.util.path.resolve(paths[i] + '/', target);
 
                 if (existsSync(iresolved)) {
                     return iresolved;
@@ -63,7 +66,7 @@ export class Compiller {
         };
     }
 
-    private walkTree(item: Root | any): void {
+    private walkTree(item: protobufjs.Root | any): void {
         if (item.nested) {
             Object.keys(item.nested).forEach((key) => {
                 this.walkTree(item.nested[key]);
@@ -88,7 +91,7 @@ export class Compiller {
                     }
 
                     // Record if the field is an enum
-                    if (field.resolvedType instanceof Enum) {
+                    if (field.resolvedType instanceof protobufjs.Enum) {
                         // Abuse the options object!
                         if (!field.options) {
                             field.options = {};
@@ -102,7 +105,7 @@ export class Compiller {
     }
 
     private output(file: string, pkg: string, tmpl: string): void {
-        const root = new Root();
+        const root = new protobufjs.Root();
 
         this.resolveRootPath(root);
 
@@ -121,7 +124,7 @@ export class Compiller {
     }
 
     private generate(path: string, pkg: string): void {
-        let hbTemplate = resolve(__dirname, '../..', this.options.template);
+        let hbTemplate = resolve(__dirname, '../..', this.options.template || '');
 
         //If absolute path we will know have custom template option
         if (isAbsolute(path)) {

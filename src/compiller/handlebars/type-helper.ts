@@ -1,6 +1,6 @@
-import { registerHelper } from 'handlebars';
+import handlebars from 'handlebars';
 
-import { EGoogleTypes, ENumberTypes } from '../../types';
+import { EGoogleTypes, ENumberTypes } from '../../types.js';
 
 const KNOWN_PREFIX = 'google.protobuf.';
 
@@ -29,10 +29,10 @@ function jsType(protoType: string): string {
         return protoType;
     }
 
-    return null;
+    return '';
 }
 
-registerHelper('type', function (field) {
+handlebars.registerHelper('type', function (field) {
     // Check for known JS types
     let type = jsType(field.type);
 

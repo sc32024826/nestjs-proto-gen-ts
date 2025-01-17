@@ -1,8 +1,8 @@
-import { registerHelper } from 'handlebars';
+import handlebars from 'handlebars';
 
-import { ENumberTypes } from '../../types';
+import { ENumberTypes } from '../../types.js';
 
-registerHelper('defaultValue', function (field) {
+handlebars.registerHelper('defaultValue', function (field) {
     if (field.type === 'string') {
         return '""';
     }

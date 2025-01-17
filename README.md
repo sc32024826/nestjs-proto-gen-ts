@@ -12,7 +12,7 @@ The package does not rely on the `protoc' compiler and generates TypeScript code
 ## Installation
 
 ```bash
-$ npm install nestjs-proto-gen-ts
+$ npm install nest-proto-ts
 ```
 
 ## Example
@@ -38,7 +38,7 @@ message Hero {
 
 Generate interfaces:
 ```bash
-$ tsproto --path ./hero-proto
+$ proto-generate --path ./hero-proto
 ```
 
 Output:
@@ -105,25 +105,28 @@ export class AppService implements OnModuleInit {
 ## Usage
 Base usage:
 ```bash
-$ tsproto --path grpc-proto
+$ proto-generate --path grpc-proto
 ```
 Output dir:
 ```bash
-$ tsproto --path grpc-proto --output any-dir
+$ proto-generate --path grpc-proto --output any-dir
 ```
 Target files:
 ```bash
-$ tsproto --path grpc-proto --target one.proto two.proto
+$ proto-generate --path grpc-proto --target one.proto two.proto
 ```
 Ignore directories or files:
 ```bash
-$ tsproto --path grpc-proto --ignore grpc-proto/ignore-dir
+$ proto-generate --path grpc-proto --ignore grpc-proto/ignore-dir
 ```
 Custom handlebar's template for output:
 ```bash
-$ tsproto --path grpc-proto --template custom-template.hbs
+$ proto-generate --path grpc-proto --template custom-template.hbs
 ```
-
+新增 KeepCase
+```bash
+$ proto-generate --path grpc-proto --output any-dir --keepCase
+```
 ## Options
 
 The following options are available:
