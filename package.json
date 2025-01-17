@@ -1,5 +1,5 @@
 {
-    "name": "nestjs-proto-gen-ts",
+    "name": "nest-proto-ts",
     "version": "1.0.22",
     "description": "Generate TypeScript interfaces for Nest.js gRPC from proto files",
     "homepage": "https://github.com/sc32024826/nestjs-proto-gen-ts",
@@ -29,7 +29,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:AlexDaSoul/nestjs-proto-gen-ts.git"
+        "url": "git@github.com:sc32024826/nestjs-proto-gen-ts.git"
     },
     "bugs": {
         "url": "https://github.com/AlexDaSoul/nestjs-proto-gen-ts/issues"
