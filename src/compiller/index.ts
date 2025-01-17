@@ -2,7 +2,7 @@ import { common, Enum, Root, util } from 'protobufjs';
 import { basename, dirname, extname, isAbsolute, join, resolve } from 'path';
 import { existsSync, lstatSync, outputFileSync, readdirSync, readFileSync } from 'fs-extra';
 import { compile } from 'handlebars';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 import './handlebars/var-helper';
 import './handlebars/comment-helper';

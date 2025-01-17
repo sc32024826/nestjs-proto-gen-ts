@@ -1,5 +1,5 @@
 import { usage } from 'yargs';
-import { red } from 'chalk';
+import red from 'chalk';
 import { resolve } from 'path';
 
 import { options } from '../options';
@@ -50,6 +50,12 @@ export const cli = usage('Extract and merge locale files.\nUsage: $0 [options]')
     .option('verbose', {
         describe: 'Log all output to console',
         default: options.verbose,
+        type: 'boolean'
+    })
+    .option('keepCase', {
+        aslias: 'k',
+        describe: 'Keeps field casing instead of converting to camel case',
+        default: options.keepCase,
         type: 'boolean'
     })
     .demandOption(['path'], red.bold('Please provide both run and [path] argument to work with this tool'))
