@@ -1,16 +1,19 @@
-import yargs from 'yargs';
+import yargs from 'yargs/yargs';
 import chalk from 'chalk';
 import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import { options } from '../options.js';
 import { Compiller } from '../compiller/index.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 /** Set CLI */
 async function initializeCli() {
     const cli = await yargs('Extract and merge locale files.\nUsage: $0 [options]')
-        /* eslint-disable @typescript-eslint/no-var-requires */
-        .version(require(`${__dirname}/../../package.json`).version)
-        /* eslint-enable @typescript-eslint/no-var-requires */
+        .version((await import(`${__dirname}/../../package.json`, { assert: { type: 'json' } })).version)
         .alias('version', 'v')
         .help('help')
         .alias('help', 'h')
@@ -61,7 +64,7 @@ async function initializeCli() {
             type: 'boolean'
         })
         .option('keepCase', {
-            aslias: 'k',
+            alias: 'k',
             describe: 'Keeps field casing instead of converting to camel case',
             default: options.keepCase,
             type: 'boolean'

@@ -1,7 +1,7 @@
 import protobufjs from 'protobufjs';
 import { basename, dirname, extname, isAbsolute, join, resolve } from 'path';
-import { existsSync, lstatSync, outputFileSync, readdirSync, readFileSync } from 'fs-extra';
-import { compile } from 'handlebars';
+import fse from 'fs-extra';
+import handlebars from 'handlebars';
 import chalk from 'chalk';
 
 import './handlebars/var-helper.js';
@@ -12,6 +12,14 @@ import './handlebars/type-helper.js';
 import './handlebars/default-value-helper.js';
 
 import { IGenOptions } from '../types.js';
+
+import { fileURLToPath } from 'url';
+import { dirname as dir } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dir(__filename);
+
+const { existsSync, lstatSync, outputFileSync, readdirSync, readFileSync } = fse
 
 /** Set Compiller */
 export class Compiller {
@@ -116,7 +124,7 @@ export class Compiller {
 
         this.walkTree(root);
 
-        const results = compile(tmpl)(root);
+        const results = handlebars.compile(tmpl)(root);
         const outputFile = this.options.output ? join(this.options.output, file.replace(/^.+?[/\\]/, '')) : file;
         const outputPath = join(dirname(outputFile), `${basename(file, extname(file))}.ts`);
 
