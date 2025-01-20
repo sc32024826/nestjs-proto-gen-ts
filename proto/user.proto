@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc GetUser(FindUserDto) returns (User);
+  rpc CreateUser(CreateUserDto) returns (User);
+  rpc RemoveUser(FindUserDto) returns (RemoveUserResponse);
+  rpc UpdateUser(User) returns (User);
+  // rpc GetUserCount (GetUserCountRequest) returns (GetUserCountResponse) {}
+  rpc FindAllUsers(paginationDto) returns (FindAllUsersResponse);
+  rpc Health(Empty) returns (Status);
+  rpc Login(LoginDto) returns (AuthedUser);
+}
+
+message Empty {}
+
+message Status { string status = 1; }
+
+message paginationDto {
+  uint32 page = 1;
+  uint32 pageSize = 2;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string avatar = 4;
+  string phone = 5;
+  uint32 role = 6;
+  uint32 gender = 7;
+  string last_login_time = 8;
+  string birthday = 9;
+  string created_at = 10;
+  string updated_at = 11;
+  bool delete_flag = 12;
+  uint32 status = 13;
+}
+
+message RemoveUserResponse { string id = 1; }
+
+message AuthedUser {
+  User user = 1;
+  string token = 2;
+}
+
+message FindAllUsersResponse {
+  repeated User data = 1;
+  uint32 total = 2;
+  uint32 page = 3;
+  uint32 pageSize = 4;
+}
+
+message Users { repeated User data = 1; }
+
+message CreateUserDto {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginDto {
+  string email = 1;
+  string password = 2;
+  string ip = 3;
+}
+
+message DeleteUserRequest { string id = 1; }
+
+message UpdateUserRequest {
+  string username = 1;
+  string email = 2;
+  string avatar = 3;
+  string phone = 4;
+  uint32 role = 5;
+  uint32 gender = 6;
+  uint64 family_id = 7;
+  string birthday = 8;
+}
+
+message FindUserDto { string id = 1; }

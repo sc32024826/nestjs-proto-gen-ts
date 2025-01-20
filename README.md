@@ -9,6 +9,8 @@ This package uses the [protobufjs](https://protobufjs.github.io/protobuf.js/) li
 
 The package does not rely on the `protoc' compiler and generates TypeScript code directly, rather than outputting types from the generated JavaScript code. This makes it easy to use the automatically generated code because it does not need to be compiled at the time of creation.
 
+原作者很久没更新,  由于数据库使用的蛇形命名, 但是生成的类型为小驼峰, 因此当我使用 prisma时 接口返回的数据 还需要加一步骤,  从蛇形命名转换为 小驼峰. 了解到这个库本身支持 保留命名方式, 只是原作者没有开启该选项, 升级了依赖版本 并添加 参数 -k, --keepCase
+
 ## Installation
 
 ```bash
@@ -105,7 +107,7 @@ export class AppService implements OnModuleInit {
 ## Usage
 Base usage:
 ```bash
-$ pgt --path grpc-proto
+$ pgt --path grpc-proto  // --path 测试发现, 后边只能用目录, 无法使用 proto/*  这种写法
 ```
 Output dir:
 ```bash

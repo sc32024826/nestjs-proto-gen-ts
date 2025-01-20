@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package system;
+
+service SystemService {
+  rpc Health(Empty) returns (Status);
+  rpc GetMenus(Empty) returns (Menus);            // 查询菜单列表
+  rpc GetMenuInfoById(MenuId) returns (MenuInfo); // 根据id查询菜单详情
+  rpc GetAllRoles(Empty) returns (Roles);         // 根据当前用户查询所有角色
+  // 根据角色id查询角色详情 以及拥有的菜单权限
+  rpc RoleDetail(RoleId) returns (RoleWithMenus);
+  rpc DeleteRole(RoleId) returns (Status); // 删除角色
+  rpc GetUserMenu(Empty) returns (Menus);  // 根据当前用户查询可访问的菜单列表
+  rpc UpdateMenu(Menu) returns (MenuId);   // 更新菜单数据
+  rpc CreateMenu(Menu) returns (MenuInfo); // 创建菜单
+  rpc DeleteMenu(MenuId) returns (DeleteRes); // 删除菜单
+}
+
+message Empty {}
+
+message Status { string status = 1; }
+
+message DeleteRes {
+  string error = 1;
+  string msg = 2;
+}
+
+message Menu {
+  string id = 1;
+  string menu_name = 2;
+  string icon = 3;
+  string parent_id = 4;
+  uint32 type = 5;
+  uint32 show_order = 6;
+  string route_name = 7;
+  string created_at = 8;
+  string updated_at = 9;
+  string updated_by = 10;
+}
+
+message Menus { repeated Menu data = 1; }
+
+message MenuId { string id = 1; }
+
+message RoleId { string id = 1; }
+
+message MenuInfo { Menu data = 1; }
+
+message Role {
+  string id = 1;
+  string name = 2;
+  string desc = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string updated_by = 6;
+}
+
+message Roles { repeated Role data = 1; }
+
+message RoleWithMenus {
+  Role role = 1;
+  repeated MenuId list = 2;
+}

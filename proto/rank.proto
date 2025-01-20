@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package rank;
+
+service RankService {
+  rpc Health(Empty) returns (Status);
+
+  // 查
+  rpc GetItemInfo(QueryItemInfoDto) returns (ItemList);
+  // 增
+  rpc CreateItemInfo(ItemInfo) returns (ItemInfo);
+  // 改
+  rpc UpdateItemInfo(ItemInfo) returns (ItemInfo);
+  // 删
+  rpc DeleteItemInfo(DeleteItemInfoDto) returns (ItemInfo);
+  // 条件查询
+  rpc GetItemInfoList(PagnationDto) returns (ItemInfoList);
+}
+
+message Empty {}
+
+message Status { string status = 1; }
+
+message ItemList { repeated ItemInfo data = 1; }
+message ItemInfo {
+  string id = 1;
+  string name = 2;
+  uint32 price = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string url = 6;
+  string images = 7;
+  uint32 origin_price = 8;
+  uint32 weight = 9;
+}
+
+message ItemInfoList { repeated ItemInfo items = 1; }
+
+message DeleteItemInfoDto { string id = 1; }
+
+message QueryItemInfoDto {
+  string id = 1;
+  string name = 2;
+}
+
+message PagnationDto {
+  uint32 page = 1;
+  uint32 pageSize = 2;
+  uint32 priceStart = 3;
+  uint32 priceEnd = 4;
+}

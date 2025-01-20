@@ -6,14 +6,16 @@ import { dirname } from 'path';
 
 import { options } from '../options.js';
 import { Compiller } from '../compiller/index.js';
+import { createRequire } from "module";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
 
 /** Set CLI */
 async function initializeCli() {
     const cli = await yargs('Extract and merge locale files.\nUsage: $0 [options]')
-        .version((await import(`${__dirname}/../../package.json`, { assert: { type: 'json' } })).version)
+        .version((require(`${__dirname}/../../package.json`)).version)
         .alias('version', 'v')
         .help('help')
         .alias('help', 'h')
@@ -83,6 +85,8 @@ async function initializeCli() {
      * @type {Compiller}
      * @param {IGenOptions}
      */
+    console.log(cli, options);
+
     const compiller = new Compiller({ ...options, ...cli });
 
     /** CLI Task Run */

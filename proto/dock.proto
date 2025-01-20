@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package dock;
+
+service DockService {
+  // 健康检查
+  rpc Health(Empty) returns (Status);
+  // 客户维护
+  rpc GetCustomers(CustomrDto) returns (Customers);
+  rpc UpdateCustomer(Customer) returns (Customer);
+  rpc DeleteCustomer(IdDto) returns (Customer);
+  rpc GetCustomerById(IdDto) returns (Customer);
+
+  // 项目维护
+  rpc GetProjects(ProjectDto) returns (Projects);
+  rpc SaveOrUpdateProject(Project) returns (Project);
+  rpc DeleteProject(IdDto) returns (Project);
+  rpc GetProjectById(IdDto) returns (Project);
+
+  // 订单维护
+  rpc GetSandSales(OrderDto) returns (Orders);
+  rpc UpdateOrder(Order) returns (Order);
+  rpc DeleteOrder(IdDto) returns (Order);
+  rpc GetOrderInfo(IdDto) returns (Order);
+  // 手动导入cvs数据
+  rpc ImportSalesData(ImportDataDto) returns (state);
+}
+message ImportDataDto {
+  File file = 1;
+  string project_id = 2;
+}
+
+message File {
+  string name = 1;         // CSV 文件名
+  bytes arrayBuffer = 2;   // 文件二进制内容
+  string content_type = 3; // 文件类型，例如 "text/csv"
+  int64 size = 4;          // 文件大小（字节）
+  uint32 lastModified = 5;
+  string type = 6;
+  bytes buffer = 7;
+}
+
+message state {
+  int32 error = 1;
+  string msg = 2;
+}
+message Empty {}
+message Status { string status = 1; }
+
+message Pagination {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message Customer {
+  string id = 1;
+  string created_at = 2;
+  string name = 3;
+  string phone = 4;
+  string address = 5;
+  string bank_name = 6;
+  string bank_no = 7;
+  string updated_at = 8;
+  string updated_by = 9;
+}
+
+message Customers {
+  repeated Customer data = 1;
+  uint32 total = 2;
+}
+
+message CustomrDto {
+  int32 page = 1;
+  int32 pageSize = 2;
+  string name = 3;
+}
+
+message IdDto { string id = 1; }
+
+message Project {
+  string id = 1;
+  string created_at = 2;
+  string name = 3;
+  string address = 4;
+  string customer = 5;
+  string customer_id = 6;
+  string total_amount = 7;
+  string received_amount = 8;
+  string remain_amount = 9;
+  string updated_at = 10;
+}
+
+message Projects {
+  repeated Project data = 1;
+  uint32 total = 2;
+}
+
+message ProjectDto {
+  int32 page = 1;
+  int32 pageSize = 2;
+  string name = 3;
+  string customer = 4;
+}
+
+message Order {
+  string id = 1;
+  string project_id = 2;
+  string material_name = 3;
+  string unit_price = 4;
+  string gross_weight = 5;
+  string net_weight = 6;
+  string tare_weight = 7;
+  string freight = 8;
+  string total_amount = 9;
+  string car_number = 10;
+  string receiver_name = 11;
+  string delivery_date = 12;
+  string document_number = 13;
+  string driver_id = 14;
+  string projectName = 15;
+}
+
+message Orders {
+  repeated Order data = 1;
+  uint32 total = 2;
+}
+
+message OrderDto {
+  string projectId = 1;
+  uint32 page = 2;
+  uint32 pageSize = 3;
+  string material = 4;
+  string beginDate = 5;
+  string endDate = 6;
+  //   string drive_name = 7;
+}

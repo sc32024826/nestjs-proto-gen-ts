@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package files;
+
+service FilesService {
+  rpc GetFile(GetFileRequest) returns (File);
+  rpc UploadFile(FileChunk) returns (UploadStatus);
+  rpc DeleteFile(DeleteFileRequest) returns (Status);
+  rpc QueryFiles(paginationDto) returns (FileList);
+  rpc Health(Empty) returns (State);
+}
+
+message File {
+  string id = 1;
+  string url = 2;
+  string name = 3;
+  string ext = 4;
+  string hash = 5;
+}
+
+message FileChunk {
+  string filename = 1;
+  bytes buffer = 2;   // 文件内容块
+}
+
+message UploadStatus {
+  string url = 1;
+}
+
+message Files { repeated File files = 1; }
+
+message GetFileRequest { string id = 1; }
+
+message DeleteFileRequest { string filename = 1; }
+
+message FileList { repeated File data = 1; }
+
+message Status { string id = 1; }
+
+message paginationDto {
+  uint32 page = 1;
+  uint32 pageSize = 2;
+}
+
+message Empty {}
+
+message State { string status = 1; }
