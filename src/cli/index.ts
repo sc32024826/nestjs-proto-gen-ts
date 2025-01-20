@@ -85,8 +85,6 @@ async function initializeCli() {
      * @type {Compiller}
      * @param {IGenOptions}
      */
-    console.log(cli, options);
-
     const compiller = new Compiller({ ...options, ...cli });
 
     /** CLI Task Run */
